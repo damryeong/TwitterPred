@@ -1,0 +1,83 @@
+ngrams.py
+---------
+memo(f) - returns a memoized function of the input function
+
+test() - uses doctest module to run tests on ngrams-test.txt. It searches for pieces of text that look like interactive Python sessions in the documentation and then executes those sessions to verify if they work correctly. https://docs.python.org/2/library/doctest.html
+
+segment() - memoized function calls segment on the remaining after taking the first half in split of the text.
+
+splits() - Returns list of all possible splits of the test as a tuple.
+
+product(nums) - gets product of all numbers in num
+
+Pdist(dict) - subclass of dict type which is used to get probability distribution estimated from counts. 
+    - init() is used to initialize data as a list of tuples (key,count), N = float of N  or sum of counts of all data, missingfn gets prob for unkown words
+    - call() is used to return probability of any word/key
+
+datafile() reads the file and splits each line to [key,value] pair.
+
+Pw = dictionary created using Pdist taking list of [key,value] pair of count_1w.txt
+
+Pwords(words) - gets product of Probability of the word for each word in words.
+
+avoid_long_words(key,N) to return the probability of unkown words
+
+P2w = gets probability distribution for count2_w.txt
+
+combine(Pfirst,first,a) takes a - key value pair and then append a[0] to probability and a[1] to first.
+
+cPw(word,prev) - condtional prob that word will be return prob (prev + " " + word) given prob of prev
+
+segment2(text,prev = '<S>')- returns (log P(words),words) after taking candidates for each split first,rem in splits of text. This logP is done so as to get max probability.
+
+encode(msg,key) makes a encoding of msg using key(shift of alphabets) using Caesar cipher.
+
+ul(text) returns upper+lower of text
+
+shift(msg,n) hshifts msg by n digits
+
+allwords(text) gets list of alphabetic words in text, lowercase using re.
+
+logPwords(words) gives Bayes probability of a string or sequence of words. Gets sum of log of probability for each word in words
+
+decode_shift(msg) takes the message, gets candidates after shifting for each possible n in [1,26] then returns the one with maximum log prob
+
+just_letters(text) 
+
+shift2(msg,n)  - shifts after getting only the lower case letters without space of the message by n
+
+decode_shift2(msg) - message is shifted by n for each n and then segmented using segment2 (get candidates with log probabilities
+
+ngrams(seq,n) - returns ngrams for seq
+
+P3l = Dictionary from count_3l
+P2l = Dictionary from count_2l
+
+logP3letters(text) - gets the probability for 3-grams of any text
+
+
+hillclimb(x,f,neighbors,steps) - gets neighborhood of x using neighbors of x and finds x that maximizes f(x)
+
+cat = joins list using '' - basically joins the strings
+
+shuffled(seq) - randomly shuffled list of input sequence
+
+neighboring_msgs(msg) - takes 2 grams of the text, gets 20 smallest values using P2l as the key, takes the bigram and checks
+	- if both letters are equal and some alphabet has probability higher than this, then it swaps the letters with c
+	- if some c+b2 has higher prob then it replaces b1 with c
+	- if some b1+c has higher prob then it replaces b2 with c
+
+	then this function keeps on returning randomselection of alphabets replaced by random choice
+
+P1edit = Pdist of count_1edit
+
+edits(word,d=2) - 
+Pedit(edit) returns probability of an edit  - can be '' or 'a|b' or 'a|b+c|d'.
+
+corrections(text) - takes text and returns correct words for matching regular expressions
+
+correct(w) - takes a dictionary of edits and multiplies probability of and edit with probability of correct word for key and gets max correct word
+
+PREFIXES - get all prexies of w
+
+edits(word , d) - updates C:edit for possible C in word upto d edits and tries for various possible extensions and delections and transpose. The best possible edits are found using Pedit distribution.
