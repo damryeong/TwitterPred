@@ -1,0 +1,30 @@
+- slang_treatment(self)
+- for each tweet in links
+		- text is split into words
+		- all of the words are intially unmarked
+		step1:
+		-for each word
+				- punc at end of the word is taken(if present or else '')
+				- checked if first letter is capital
+				- cleaned word is word without ',.?!' anywhere in middle or end of the word
+				-word is replaced after checking for domain_specific
+						-word marked if replaced
+		step2 and 3:
+		- for each word
+				- if the word is still unmarked
+						- we check if the original word is digit or abbreviation
+								-word is marked if yes
+
+		step4:
+		- for each word
+				- if the word is still unmarked
+						- word is searched in noslang.com
+								- if not found punc and caps are restored
+								-else replaced
+		- tweet_id,tweet_text pair is appended to final 
+main()
+		- all the unprocessed tweets from pre2 table are queried from sql database
+		- open domain_specific_slangs.txt
+		- dictionary domain_specific is created by reading line by line from file (key'- 'value is expected for every line in file)
+		- batches of 50 tweets are taken at once processed and appended to pre3 table in database
+				- for every successful batch insertion will end with print like  "batch inserted"

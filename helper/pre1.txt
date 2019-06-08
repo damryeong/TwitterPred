@@ -1,0 +1,63 @@
+filter_tweet(text,hashtags, user_mentions)
+- removes links in tweet
+- replaces multiple with single in text. Examples  "\?" to "?"
+- Adds a space after .,,,?,! and fixes &amp and nt to fix text.
+- Splits different words and checks if it starts with # and has only one #
+	- if the last of the word is not .,? or !
+		- keep track of the index of the word (1-indexed)
+		- keep going till you get a word that does not start with a hashtag, increasing k every time
+		- if there if an end, i.e. flag =1 
+			- append the hashtags for the word to final_word if the word has a corresponding key, else just add the word without hashtag
+		- else:
+			- if the last value in final_words is not .,?,! then last value in final words is concatenated with .
+			- then the final_words are appended with a fullstop
+	-else:
+		- if there is a hashtags for the word without the extra character, add the hashtags of the word and the extra character separate, else just the word
+- if not and the word isn't empty:
+	the word is append to final_words.
+	if c = len(text-1) and last character of last word of final_words is not .,?,! then end it with a .
+- tweet_mentions and tweet_names are formed and then returned
+
+split_by_uppercase(hashtag)
+- get uppercase boolean mask in the hashtag
+- make indices list with (start,end) of the words with all caps
+- joins the hashtag separated by space as a string
+
+expand_hashtags(hashtag)
+- if there is _, then split by _ and join with space and store in dictionary. Same for -
+- if there are number, find them, then find the position of each number in the hashtag and
+		- if pos = 0 then append the num to the broken hashtag
+		- else get the hashtag split by uppercase  and also num and append all of these (extend) to broken hashtag
+		- continue till we reach the end.
+	- if the remaining hashtag is not empty, then append after splitting by upper case
+	- final_hashtags['#'+tag]=' '.join(broken_hashtag)
+- if there are capitals in the hashtag then split by uppercase and store in final_hashtags
+- else split the hashtag by ngrams segment in final_hashtags['#'+hashtag]
+
+coverup(tweets)
+- for each tweet
+	- split the tweet[1] to get tweet_names
+	- for each t in tweet_names, split by hash and reappend hash to front of each substring and store as a list
+	- join with space to get a proper tweet
+	for each word in proper_tweet:
+		if word starts with hashtag:
+			if ending of word is in . , ! ? - then:
+				append the word to hashtags without the # and the end and hashtag_sql will have tweet id and hashtag word stored as a tuple.
+	insert these tuple values in SQL Table
+	expand the hashtags and then filter the proper_tweet with hashtags to get tweet_name and tweet_mentions
+	update the table in sql 
+
+
+- main 
+	select all those tweet ids in posts which are not include in the pre1 table
+	for tweets, select the hashtags for each
+		store the hashtags are a lit and then expand them
+		select name and screen name from user mentioned for the user id where the tweet id is given as follows
+
+		get the mentions, 
+		map the users is a mentions_map
+
+		Get texts with user mentioned retained and replaced
+		Get the tweet where ill Hashtags are deined
+		and then call coverup(tweets)
+
